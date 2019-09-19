@@ -187,12 +187,7 @@ public class GetAzureEventHubTest {
                     properties.put(AmqpConstants.ENQUEUED_TIME_UTC_ANNOTATION_NAME, ENQUEUED_TIME_VALUE);
 
                     SystemProperties systemProperties = new SystemProperties(properties);
-                    Field systemPropertiesField = FieldUtils.getDeclaredField(EventData.class, "systemProperties", true);
-                    try {
-                        systemPropertiesField.set(eventData, systemProperties);
-                    } catch (IllegalAccessException e) {
-                        throw new ProcessException("Could not set systemProperties on EventData", e);
-                    }
+                    eventData.setSystemProperties(systemProperties);
                 }
                 receivedEvents.add(eventData);
             }
@@ -210,6 +205,10 @@ public class GetAzureEventHubTest {
         @Override
         public void onScheduled(final ProcessContext context) throws ProcessException {
 
+        }
+
+        @Override
+        public void tearDown() throws ProcessException {
         }
     }
 
